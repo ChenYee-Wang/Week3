@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8"></meta>
+    <meta name="viewport" content="width=device-width initial-scale=1 maximum-scale=1"></meta>
+    <title>台北市景點</title>
+    <link rel="stylesheet" type="text/css" href="style.css"></link>
+    <script>
+        function getData() {
+                var req = new XMLHttpRequest();
+                req.open("get","https://padax.github.io/taipei-day-trip-resources/taipei-attractions.json")
+                req.onload = function(){
+                    let datastr = JSON.parse(req.responseText);
+                    let trip=datastr.result.results;
+                    
+                    for (var num = 0; num < 8; num++){
+                        let content = document.getElementById('content');
+
+                        let box = document.createElement('div');
+                        box.className = "box";
+                        content.appendChild(box)
+
+
+                        let newImg = document.createElement('img');
+                        newImg.className = "img";
+                        newImg.src="http://"+trip[num].file.split("http://")[1];
+                        box.appendChild(newImg);
+
+                        let intro=trip[num].stitle;
+                        let newIntro = document.createElement('div');
+                        newIntro.className = "intro";
+                        newIntro.appendChild(document.createTextNode(trip[num].stitle));
+                        box.appendChild(newIntro);
+                    }
+                }
+                req.send();
+            }        
+    </script>
+</head>
+
+<body onload = "getData();">
+    <header>
+        <div class="logo">My Website</div>
+        <nav>
+            <img src="hamberger.png" class="hamburger"></img>
+            <ul class="menu" id="menu">
+                <li><a href="#" class="item">Item1</a></li>
+                <li><a href="#" class="item">Item2</a></li>
+                <li><a href="#" class="item">Item3</a></li>
+                <li><a href="#" class="item">Item4</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="slogan">Welcome to MyHome</div>
+    <main>
+        <div class="content" id="content"></div>
+    </main>
+</body>
+
+</html>
